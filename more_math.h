@@ -126,7 +126,7 @@ int fibonacci(int num_number)
 unsigned int fibonacci(unsigned int num_number)
 {
 	//declare vars
-	int num_current = 1, num_previous_1 = 1, num_previous_2 = 1, i = 3;
+	unsigned int num_current = 1, num_previous_1 = 1, num_previous_2 = 1, i = 3;
 
 	if (num_number != 1, num_number != 2)
 	{
@@ -939,35 +939,6 @@ void array_clone(short* dest, short* source)
 	}
 }
 
-string matrix_row_to_str(char** matrix, int row_num)
-{
-	//declare vars
-	string str;
-
-	//does conversion
-	for (int i = 0; matrix[row_num][i] != '\0'; i++)
-	{
-		str = str + matrix[row_num][i];
-	}
-
-	//retunrs str
-	return str;
-}
-
-//converts a row in matrix into a character array 
-//charater array (can be used in return statements and function parameters)
-char* matrix_row_to_char_ar(char** matrix, int row_num)
-{
-	//converts the matrix row into a string and then converts that into a charater array and returns the charater array
-	return to_char_ar(matrix_row_to_str(matrix, row_num));
-}
-//void (can not be used in function parameters or return statements)
-void matrix_row_to_char_ar(char** matrix, int row_num, char* ar)
-{
-	
-	strcpy(ar, matrix_row_to_char_ar(matrix, row_num));
-}
-
 int num_digits(int num)
 {
 	//declare vars
@@ -1019,7 +990,7 @@ int num_digits(long num)
 int num_digits(double num)
 {
 	//declare vars
-	int digits;
+	int digits = 0;
 
 	//converts double into integer (sort of)
 	while (num != floor(num))
@@ -1040,7 +1011,7 @@ int num_digits(double num)
 int num_digits(float num)
 {
 	//declare vars
-	int digits;
+	int digits = 0;
 
 	//converts double into integer (sort of)
 	while (num != floor(num))
@@ -1290,7 +1261,7 @@ int prime(int num_nums)
 //unsigned int
 unsigned int prime(unsigned int num_nums)
 {
-	unsigned int prime_num;
+	unsigned int prime_num = 1;
 
 	for (unsigned int i = 0; i <= num_nums; prime_num += 2)
 	{
@@ -1339,6 +1310,10 @@ int char_to_int(char num)
 	if (isdigit(num))
 	{
 		return num - 48;
+	}
+	else
+	{
+		return 0;
 	}
 }
 
@@ -1511,4 +1486,121 @@ void fibonacci_hash(char* original, bool loop, char* return_array)
 		hexadecimal(return_array, fibonacci(hash_num));
 	}
 }
+
+/*apmatrix for machines that don't have apmatrix
+can also be seen as my own spin on apmatrix*/
+template <class d_type>
+class m_matrix
+{
+public:
+	//this is the core of the matrix. As it is public, you may directly access and change it if you so wish
+	vector<vector<d_type>> core;
+
+	//these functions get data about the matrix
+
+	//returns the selected row; if that row does not exist, a vector with only a 0 will be returned (all default microsoft and c++ data types/classes will handle this, be sure to test tirdparty solutions)
+	vector<d_type> row(int row_num)
+	{
+		if (core.length >= row_num)
+		{
+			return core[row_num];
+		}
+		else
+		{
+			return 0;
+		}
+	}
+
+	//gets the length of a selected row; if that row does not exist, it will return a -1
+	int row_length(int row_num)
+	{
+		if (core.length >= row_num)
+		{
+			return core[row_num].length;
+		}
+		else
+		{
+			return 0;
+		}
+	}
+
+	//gets all the data from a perticular collum. if a collum is empty, the spot for that row is empty
+	vector<d_type> col(int col_num)
+	{
+		//this is the vector that will be used
+		vector<d_type> return_vector;
+			//generates the return vector
+		for (int row = 0; row <= core.length; row++)
+		{
+			//checks to see if curently veiwed combination of row and collum exist. This collum is skiped if a 0 is returned
+			if (!(core[row].length < col_num))
+			{
+				return_vector[row] = core[row][col_num];
+			}
+		}
+
+		//returns the vector
+		return return_vector;
+	}
+	
+	//returns the longest row
+	//to get the length, all you have to do is "matrix.l_row().length"
+	vector<d_type> l_row()
+	{
+		//holds the logest row's number
+		int l_row_num = 0;
+
+		//gets the longest row's number
+		for (row = 0; row <= matrix.length; row++)
+		{
+			if (core[row].length > core[l_row_num].length)
+			{
+				l_row_num = row
+			}
+		}
+
+		//returns the longest row (not its length
+		return core[l_row_num]
+	}
+
+	//returns the shortest row
+	//to get the length, all you have to do is "matrix.s_row().length"
+	vector<d_type> s_row()
+	{
+		//holds the logest row's number
+		int s_row_num = 0;
+
+		//gets the longest row's number
+		for (row = 0; row <= matrix.length; row++)
+		{
+			if (core[row].length > core[s_row_num].length)
+			{
+				s_row_num = row
+			}
+		}
+
+		//returns the longest row (not its length
+		return core[s_row_num]
+	}
+
+	//think of this function as the area of a square
+	int size()
+	{
+		return core.length() * longest_row().length;
+	}
+
+	//these functions edit/create one or more peices of data
+
+	//creates/edits the data at a specific point
+	void edit_point(int row, int col, d_type data)
+	{
+		core[row][col] = data;
+	}
+
+	//creats/replaces the data from a whole row
+	void edit_row(int row, vector<d_type> data)
+	{
+		core[row] = data;
+	}
+};
 #endif
