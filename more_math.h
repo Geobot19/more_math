@@ -42,6 +42,18 @@ int sq(int num)
 {
 	return num*num;
 }
+unsigned int sq(unsigned int num)
+{
+	return num*num;
+}
+unsigned short sq(unsigned short num)
+{
+	return num*num;
+}
+unsigned long sq(unsigned long num)
+{
+	return num*num;
+}
 
 //converts inches to centimeters
 double convert_in_cm(double inches)
@@ -679,30 +691,13 @@ int hex_to_dec(char* hexadecimal)
 }
 
 //converts a charater array into a string
-//charater array
 string to_str(char* ar)
 {
 	string str;
 
 	for (int i = 0; ar[i] != '\0'; i++)
 	{
-		str = str + ar[i];
-	}
-
-	return str;
-}
-//charater matrix
-string to_str(char** matrix, int num_rows)
-{
-	string str;
-
-	for (int rows = 0; rows <= num_rows; rows++)
-	{
-		for (int cols = 0; matrix[rows][cols] != NULL; cols)
-		{
-			str = str + matrix[rows][cols];
-		}
-		str = str + '\n';
+		str[i] = ar[i];
 	}
 
 	return str;
@@ -1022,7 +1017,7 @@ int num_digits(float num)
 	//gets the number of digits
 	while (num >= 1)
 	{
-		num = num * 0.1;
+		num = num * (float)0.1;
 		digits++;
 	}
 
@@ -1090,7 +1085,8 @@ void char_ar_to_int_ar(char* ar, int* ar1)
 	array_clone(ar1, char_ar_to_int_ar(ar));
 }
 
-//
+//sets all the charaters in a charachter array to lower case
+//without destination (changes original array)
 void tolower_all(char* ar)
 {
 	for (int i = 0; ar[i] != '\0'; i++)
@@ -1098,7 +1094,7 @@ void tolower_all(char* ar)
 		ar[i] = tolower(ar[i]);
 	}
 }
-//
+//with destination (makes a copy to change instead)
 void tolower_all(char* dest, char* source)
 {
 	strcpy(dest, source);
@@ -1106,7 +1102,8 @@ void tolower_all(char* dest, char* source)
 	tolower_all(dest);
 }
 
-//
+//sets all the charaters in a charachter array to upper case
+//without destination
 void toupper_all(char* ar)
 {
 	for (int i = 0; ar[i] != '\0'; i++)
@@ -1114,7 +1111,7 @@ void toupper_all(char* ar)
 		ar[i] = toupper(ar[i]);
 	}
 }
-//
+//with destination
 void toupper_all(char* dest, char* source)
 {
 	strcpy(dest, source);
@@ -1218,6 +1215,29 @@ bool is_prime(long num)
 		return true;
 	}
 }
+//unsigned long
+bool is_prime(unsigned long num)
+{
+	//declare vars
+	bool is_prime = true;
+
+	if (num != 1 && num != 2)
+	{
+		//checks to see if the number is prime
+		for (unsigned long i = 2; i < num && is_prime; i++)
+		{
+			is_prime = num % i != 0;
+		}
+
+		//returns is_prime
+		return is_prime;
+	}
+	else
+	{
+		//beacause 1 and 2 are prime, retruns true if num is 1 or 2
+		return true;
+	}
+}
 //short
 bool is_prime(short num)
 {
@@ -1228,6 +1248,29 @@ bool is_prime(short num)
 	{
 		//checks to see if the number is prime
 		for (short i = 2; i < num && is_prime; i++)
+		{
+			is_prime = num % i != 0;
+		}
+
+		//returns is_prime
+		return is_prime;
+	}
+	else
+	{
+		//beacause 1 and 2 are prime, retruns true if num is 1 or 2
+		return true;
+	}
+}
+//unsigned short
+bool is_prime(unsigned short num)
+{
+	//declare vars
+	bool is_prime = true;
+
+	if (num != 1 && num != 2)
+	{
+		//checks to see if the number is prime
+		for (unsigned short i = 2; i < num && is_prime; i++)
 		{
 			is_prime = num % i != 0;
 		}
@@ -1288,6 +1331,21 @@ long prime(long num_nums)
 
 	return prime_num;
 }
+//unsigned long
+unsigned long prime(unsigned long num_nums)
+{
+	unsigned long prime_num = 1;
+
+	for (unsigned long i = 0; i <= num_nums; prime_num += 2)
+	{
+		if (is_prime(prime_num))
+		{
+			i++;
+		}
+	}
+
+	return prime_num - 1;
+}
 //short
 short prime(short num_nums)
 {
@@ -1302,6 +1360,21 @@ short prime(short num_nums)
 	}
 
 	return prime_num;
+}
+//unsigned short
+unsigned short prime(unsigned short num_nums)
+{
+	unsigned short prime_num = 1;
+
+	for (unsigned short i = 0; i <= num_nums; prime_num += 2)
+	{
+		if (is_prime(prime_num))
+		{
+			i++;
+		}
+	}
+
+	return prime_num - 1;
 }
 
 //returns the integer contained within the charater example: char x = '1' char_to_int(x) returns the integer 1
@@ -1326,7 +1399,7 @@ int char_ar_to_int(char* num)
 	//does conversion
 	for (int i = 0; i <= ar_length(num); i++)
 	{
-		num1 = num1 + (char_to_int(num[ar_length(num) - i]) * pow(10, i));
+		num1 = num1 + (char_to_int(num[ar_length(num) - i]) * (int)pow(10, i));
 	}
 
 	//returns integer
@@ -1348,11 +1421,23 @@ bool between(int val_1, int val_2)
 {
 	return val_1 >= val_2 && val_1 <= val_2;
 }
+bool between(unsigned int val_1, unsigned int val_2)
+{
+	return val_1 >= val_2 && val_1 <= val_2;
+}
 bool between(short val_1, short val_2)
 {
 	return val_1 >= val_2 && val_1 <= val_2;
 }
+bool between(unsigned short val_1, unsigned short val_2)
+{
+	return val_1 >= val_2 && val_1 <= val_2;
+}
 bool between(long val_1, long val_2)
+{
+	return val_1 >= val_2 && val_1 <= val_2;
+}
+bool between(unsigned long val_1, unsigned long val_2)
 {
 	return val_1 >= val_2 && val_1 <= val_2;
 }
@@ -1450,7 +1535,7 @@ void fibonacci_hash(string original, bool loop, char* return_array)
 	//creates the hash
 	for (int i = 0; i != original.length(); i++)
 	{
-		hash_num = hash_num * fibonacci((int)original[i]);
+		hash_num *= fibonacci((int)original[i]);
 	}
 
 	//returns a hex value as the hash (psudo-return)
@@ -1472,7 +1557,7 @@ void fibonacci_hash(char* original, bool loop, char* return_array)
 	//creates the hash
 	for (int i = 0; original[i] != '\0'; i++)
 	{
-		hash_num = hash_num * fibonacci((int)original[i]);
+		hash_num *= fibonacci((int)original[i]);
 	}
 
 	//returns a hex value as the hash (psudo-return)
@@ -1603,4 +1688,41 @@ public:
 		core[row] = data;
 	}
 };
+
+//calcualte the pythagorian theorm (returns c squared)
+//int
+double pyth(int a, int b)
+{
+	return sqrt(sq(a) + sq(b));
+}
+//int
+double pyth(long a, long b)
+{
+	return sqrt(sq(a) + sq(b));
+}
+//short
+double pyth(short a, short b)
+{
+	return sqrt(sq(a) + sq(b));
+}
+//double
+double pyth(double a, double b)
+{
+	return sqrt(sq(a) + sq(b));
+}
+//unsigned int
+double pyth(unsigned int a, unsigned int b)
+{
+	return sqrt(sq(a) + sq(b));
+}
+//unsigned long
+double pyth(unsigned long a, unsigned long b)
+{
+	return sqrt(sq(a) + sq(b));
+}
+//unsigned short
+double pyth(unsigned short a, unsigned short b)
+{
+	return sqrt(sq(a) + sq(b));
+}
 #endif
