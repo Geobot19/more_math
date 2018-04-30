@@ -1583,7 +1583,8 @@ public:
 
 	//these functions get data about the matrix
 
-	//returns the selected row; if that row does not exist, a vector with only a 0 will be returned (all default microsoft and c++ data types/classes will handle this, be sure to test tirdparty solutions)
+	/*returns the selected row; if that row does not exist, a vector with only a 0 will be returned
+	(all default microsoft and c++ data types/classes will handle this, be sure to test tirdparty solutions)*/
 	vector<d_type> row(int row_num)
 	{
 		if (core.length >= row_num)
