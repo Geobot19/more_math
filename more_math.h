@@ -67,19 +67,6 @@ double convert_cm_in(double centimeters)
 	return centimeters / 2.54;
 }
 
-//tells if tow numbers can be evevly divided
-bool even_division(int num_1, int num_2)
-{
-	return num_1 % num_2 == 0;
-}
-bool even_division(long num_1, long num_2)
-{
-	return num_1 % num_2 == 0;
-}
-bool even_division(short num_1, short num_2)
-{
-	return num_1 % num_2 == 0;
-}
 
 //cubes a number
 //double
