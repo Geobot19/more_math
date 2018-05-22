@@ -1559,9 +1559,11 @@ void fibonacci_hash(char* original, bool loop, char* return_array)
 	}
 }
 
+//the d_type template will be used in many ways from now on
+template <d_type>
+
 /*apmatrix for machines that don't have apmatrix
 can also be seen as my own spin on apmatrix*/
-template <class d_type>
 class m_matrix
 {
 public:
@@ -1713,4 +1715,19 @@ double pyth(unsigned short a, unsigned short b)
 {
 	return sqrt(sq(a) + sq(b));
 }
+
+//this class is only to be used by the table class (coming soon), it has no uses otherwise
+class table_column
+{
+public:
+	vector<d_type> column_data;
+	string column_name;
+};
+
+//this class crates a table
+class table
+{
+public:
+	
+};
 #endif
