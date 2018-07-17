@@ -1012,43 +1012,6 @@ int num_digits(float num)
 	return digits;
 }
 
-//converts boolean to integer for math
-//returns 1 if the boolean is true or 0 if the boolean false
-int bool_to_int(bool boolean)
-{
-	if (boolean)
-	{
-		return 1;
-	}
-	else
-	{
-		return 0;
-	}
-}
-//returns the integer entered into the parameters if the boolean is true or 0 if the boolean false
-int bool_to_int(bool boolean, int x)
-{
-	if (boolean)
-	{
-		return x;
-	}
-	else
-	{
-		return 0;
-	}
-}
-int bool_to_int(bool boolean, int x, int y)
-{
-	if (boolean)
-	{
-		return x;
-	}
-	else
-	{
-		return y;
-	}
-}
-
 //converts integer arrays into charater arrays
 //int (can only be used in funcion parameters)
 int* char_ar_to_int_ar(char* ar)
@@ -1559,11 +1522,9 @@ void fibonacci_hash(char* original, bool loop, char* return_array)
 	}
 }
 
-//the d_type template will be used in many ways from now on
-template <d_type>
-
 /*apmatrix for machines that don't have apmatrix
 can also be seen as my own spin on apmatrix*/
+template <class d_type>
 class m_matrix
 {
 public:
@@ -1716,18 +1677,275 @@ double pyth(unsigned short a, unsigned short b)
 	return sqrt(sq(a) + sq(b));
 }
 
-//this class is only to be used by the table class (coming soon), it has no uses otherwise
-class table_column
-{
-public:
-	vector<d_type> column_data;
-	string column_name;
-};
-
-//this class crates a table
+/*this class crates a table that supports the data types:
+int
+unsinged int
+long
+unsinged long
+double
+string
+*/
+/*
 class table
 {
+private:
+	//declare vars
+	m_matrix<string> data;
+	vector<string> column_names;
+	vector<string> d_types;
+	int num_columns = 0, num_rows = 0;
 public:
-	
+	table(string column_name, string d_type)
+	{
+
+	}
+
+	//creates a new column in the table
+	void new_column(string name, string d_type)
+	{
+		//creates the new column by 
+		column_names[num_columns] = name;
+		d_types[num_columns] = d_type;
+		data.core[num_columns][0] = '\0';
+
+		//gets a new next position
+		num_columns++;
+	}
+};
+*/
+
+//stores a number as pure binary
+class binary
+{
+public:
+	//contains the actual values (it's public so that you can use the abilities of the vector class ex:)
+	bool* core = NULL;
+	//allows the inputed numbers to be negetive
+	bool negetive = false;
+	//holds the size of the number/core
+	int size;
+
+	//constructors
+	//default
+	binary()
+	{
+		//sets the size of the number to 8 bits (one byte)
+		size = 8;
+		core = new bool[8];
+
+		for (int i = 0; i <= 7; i++)
+		{
+			core[i] = false;
+		}
+	}
+	//size
+	binary(int s_size)
+	{
+		//sets the size of the number
+		size = s_size;
+		core = new bool[s_size];
+
+		for (int i = 0; i <= s_size - 1; i++)
+		{
+			core[i] = false;
+		}
+	}
+	//value & size
+	binary(int s_size, int value)
+	{
+		//sets the size of the number
+		size = s_size;
+		core = new bool[s_size];
+
+		for (int i = 0; i <= s_size - 1; i++)
+		{
+			core[i] = false;
+		}
+
+		//sets the value
+		set(value);
+	}
+	//copy
+	binary(binary & source)
+	{
+		//determines if the value of the new binary will be negetive
+		negetive = source.negetive;
+
+		//creates the size of the new binary
+		size = source.size;
+		core = new bool[size];
+
+		//copys the binary
+		for (int i = 0; i <= size - 1; i++)
+		{
+			core[i] = source.core[i];
+		}
+	}
+
+	//rezizes the array (does nothing if data is found beyond the new size) retruns wether the funtion failed or not
+	bool resize(int n_size)
+	{
+		//holds a copy of the original core so that the original data will be retained if possible
+		bool* copy = core;
+		
+		bool failed = false;
+
+		if (n_size < size)
+		{
+			for (int i = size - n_size; !failed && i <= size; i++)
+			{
+				failed = core[i];
+			}
+		}
+
+		if (!failed)
+		{
+			//clears core pointer to store a new array
+			delete[] core;
+			core = NULL;
+
+			//recreates and repopulates the array
+			core = new bool[n_size];
+			for (int i = 0; i <= n_size - 1; i++)
+			{
+				core[i] = copy[i];
+			}
+			for (int i = 0; i <= n_size - 1; i++)
+			{
+				core[i] = 0;
+			}
+
+			return false;
+		}
+		else
+		{
+			return true;
+		}
+	}
+
+	//sets the value of the binary num
+	void set(int value)
+	{
+		//checks to see if the input is negetive and makes adjustments accordingly
+		if (value < 0)
+		{
+			//prepares the value var for the conversion
+			value *= -1;
+
+			//makes the new binary number negetive
+			negetive = true;
+		}
+		else
+		{
+			//makes the new binary number positive
+			negetive = false;
+		}
+
+		//enters the number
+
+		//counts iterations of the loop used
+		int i;
+
+		//checks to see if the value is zero befor starting entry
+		if (value != 0)
+		{
+
+			for (i = 1; value != 0;)
+			{
+				core[i] = !(value % 2);
+
+				value / 2;
+
+				i++;
+
+				if (i > size)
+				{
+					resize(i);
+				}
+			}
+		}
+		else
+		{
+			for (int i = 0; i <= size; i++)
+			{
+				core[i] = 0;
+			}
+		}
+	}
+
+	//converts the binary object into either a number or a series of 1s and 0s
+	int convert_int()
+	{
+		//declare return var
+		int num = 0;
+
+		//makes conversion
+		for (int i = 0; i <= size;)
+		{
+			if (core[i] == 1)
+			{
+				num = num + (int)pow(2, i);
+			}
+			i++;
+		}
+
+		//returns integer
+		return num * (negetive ? -1:1);
+	}
+	long convert_long()
+	{
+		//decalre return var
+		long num = 0;
+
+		//does converion
+		for (long i = 0; i <= size;)
+		{
+			if (core[i])
+			{
+				num = num + (long)pow(2, i);
+			}
+			i++;
+		}
+		//returns long interger
+		return num * (negetive ? -1 : 1);
+	}
+	short convert_shot()
+	{
+		//decalre return vars
+		short num = 0;
+
+		//does conversion
+		for (short i = 0; i <= size;)
+		{
+			if (core[i])
+			{
+				num = num + (short)pow(2, i);
+			}
+			i++;
+		}
+
+		return num * (negetive ? -1 : 1);
+	}
+	string convert_str()
+	{
+		//rdecalre return var
+		string binary_num;
+
+		//does conversion
+		for (int i = 0; i <= size;)
+		{
+			if (core[size - i])
+			{
+				binary_num[i] = '1';
+			}
+			else
+			{
+				binary_num[i] = '0';
+			}
+			i++;
+		}
+
+		return binary_num;
+	}
 };
 #endif
