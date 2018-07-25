@@ -1941,7 +1941,7 @@ binary fibonacci_hash(string original, int loop)
 	{
 		for (int i = 0; i <= original.length(); i++)
 		{
-			hash_num.multiply(fibonacci((int)original[i]));
+			hash_num.multiply_2(fibonacci((int)original[i]));
 		}
 	}
 
