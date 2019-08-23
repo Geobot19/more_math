@@ -95,59 +95,17 @@ short cube(short num)
 	return num*num*num;
 }
 
-int fibonacci(int num_number)
+int fibonacci(int pos)
 {
-	//declare vars
-	int num_current = 1, num_previous_1 = 1, num_previous_2 = 1, i = 3;
-
-	if (num_number != 1, num_number != 2)
-	{
-		do
-		{
-			//calculate previous numbers and current number
-			num_previous_2 = num_previous_1;
-			num_previous_1 = num_current;
-			num_current = num_previous_1 + num_previous_2;
-
-			//count itteration
-			i++;
-		} while (num_number >= i);
-
-		//return the current number
-		return num_current;
-	}
-	else
-	{
-		//returns one
-		return 1;
-	}
+	double sqrt5 = sqrt(5);
+	
+	return (int)((pow(1 + sqrt5, pos) - pow(1 - sqrt5, pos))/(pow(2, pos) * sqrt5));
 }
 unsigned int fibonacci(unsigned int num_number)
 {
-	//declare vars
-	unsigned int num_current = 1, num_previous_1 = 1, num_previous_2 = 1, i = 3;
-
-	if (num_number != 1, num_number != 2)
-	{
-		do
-		{
-			//calculate previous numbers and current number
-			num_previous_2 = num_previous_1;
-			num_previous_1 = num_current;
-			num_current = num_previous_1 + num_previous_2;
-
-			//count itteration
-			i++;
-		} while (num_number >= i);
-
-		//return the current number
-		return num_current;
-	}
-	else
-	{
-		//returns one
-		return 1;
-	}
+	double sqrt5 = sqrt(5);
+	
+	return (unsigned int)((pow(1 + sqrt5, pos) - pow(1 - sqrt5, pos))/(pow(2, pos) * sqrt5));
 }
 long fibonacci(long num_number)
 {
